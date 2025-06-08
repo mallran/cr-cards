@@ -1,11 +1,71 @@
 <!DOCTYPE html>
-<html lang="uk">
+<html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <title>Мій Mini App</title>
+  <title>Мой Mini App</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background-color: #fff0f6;
+      color: #333;
+    }
+    h1 {
+      color: #d6336c;
+    }
+    button {
+      background-color: #d6336c;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 10px 5px 0 0;
+    }
+    button:hover {
+      background-color: #b52b58;
+    }
+  </style>
 </head>
 <body>
-  <h1>Привіт! Це мій Mini App у Telegram</h1>
-  <p>Тут буде твоя колекція карток з Клубу Романтики.</p>
+  <div>
+    <button onclick="setLang('ru')">Русский</button>
+    <button onclick="setLang('uk')">Українська</button>
+  </div>
+  <h1 id="title">Привет! Это мой Mini App в Telegram</h1>
+  <p id="description">Здесь будет твоя коллекция карточек из Клуба Романтики.</p>
+  <button id="viewCardsBtn" onclick="alert(alertText)">Просмотреть карточки</button>
+
+  <script>
+    const texts = {
+      ru: {
+        title: 'Привет! Это мой Mini App в Telegram',
+        description: 'Здесь будет твоя коллекция карточек из Клуба Романтики.',
+        button: 'Просмотреть карточки',
+        alert: 'Показать список карточек пока что здесь :)'
+      },
+      uk: {
+        title: 'Привіт! Це мій Mini App у Telegram',
+        description: 'Тут буде твоя колекція карток з Клубу Романтики.',
+        button: 'Переглянути картки',
+        alert: 'Показати список карток поки що тут :)'
+      }
+    };
+
+    let currentLang = 'ru';
+    let alertText = texts[currentLang].alert;
+
+    function setLang(lang) {
+      currentLang = lang;
+      document.getElementById('title').textContent = texts[lang].title;
+      document.getElementById('description').textContent = texts[lang].description;
+      document.getElementById('viewCardsBtn').textContent = texts[lang].button;
+      alertText = texts[lang].alert;
+    }
+
+    // Инициализация
+    setLang(currentLang);
+  </script>
 </body>
 </html>

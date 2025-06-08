@@ -2,7 +2,7 @@
 <html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CR Cards — Обміни</title>
   <style>
     body {
@@ -10,6 +10,10 @@
       font-family: 'Segoe UI', sans-serif;
       background-color: #1e102f;
       color: #fff;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 10px;
     }
     header {
       background-color: #2a1553;
@@ -17,6 +21,8 @@
       text-align: center;
       font-size: 1.5rem;
       font-weight: bold;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
     nav {
       display: flex;
@@ -24,6 +30,8 @@
       gap: 10px;
       background-color: #3c1f66;
       padding: 0.5rem;
+      border-radius: 8px;
+      margin-bottom: 20px;
     }
     nav button {
       background-color: #6a3ea1;
@@ -40,13 +48,15 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
       gap: 20px;
-      padding: 20px;
+      padding: 0;
+      margin-bottom: 40px;
     }
     .card {
       background-color: #2f1b4d;
       border-radius: 12px;
       padding: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      color: #fff;
     }
     .card img {
       width: 100%;
@@ -60,52 +70,164 @@
     .card-info b {
       color: #ffd700;
     }
+    form {
+      background-color: #2a1553;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 30px;
+      color: #fff;
+    }
+    input, button {
+      display: block;
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      border-radius: 6px;
+      border: none;
+    }
+    input {
+      font-size: 1rem;
+    }
+    button {
+      background-color: #6a3ea1;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #8255c4;
+    }
+    #cardsContainer > div {
+      border: 1px solid #ddd;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      background-color: #3c1f66;
+    }
+    #cardsContainer img {
+      max-width: 150px;
+      display: block;
+      margin-bottom: 10px;
+      border-radius: 8px;
+    }
   </style>
 </head>
 <body>
+
   <header>Обмін картками | Club Romance</header>
+
   <nav>
     <button>Головна</button>
     <button>Додати картку</button>
     <button>Обмінятися</button>
     <button>Профіль</button>
   </nav>
-  <section class="cards-container">
-    <div class="card">
-      <img src="https://via.placeholder.com/200x250.png?text=Картка+1" alt="Картка 1">
-      <div class="card-info">
-        💎 <b>Ціна:</b> 1 алмаз<br>
-        👤 <b>Користувач:</b> @user123
-      </div>
-    </div>
-    <div class="card">
-      <img src="https://via.placeholder.com/200x250.png?text=Картка+2" alt="Картка 2">
-      <div class="card-info">
-        ☕ <b>Ціна:</b> 2 чашки<br>
-        👤 <b>Користувач:</b> @romanceFan
-      </div>
-    </div>
-  </section>
+
+  <!-- Форма добавления карточки -->
+  <h1>Додати карточку</h1>
+  <form id="addCardForm">
+    <input type="text" name="name" placeholder="Назва картки" required />
+    <input type="text" name="description" placeholder="Опис" required />
+    <input type="text" name="userName" placeholder="Ваш Telegram @username" required />
+    <input type="text" name="price" placeholder="Ціна (чашки, алмази)" required />
+    <input type="file" name="photo" accept="image/*" required />
+    <button type="submit">Додати карточку</button>
+  </form>
+
+  <!-- Секция с карточками -->
+  <h2>Карточки</h2>
+  <div id="cardsContainer">Завантаження карточок...</div>
+
   <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
-  const firebaseConfig = {
-    apiKey: "ТВОЙ_API_KEY",
-    authDomain: "ТВОЙ_AUTH_DOMAIN",
-    projectId: "ТВОЙ_PROJECT_ID",
-    storageBucket: "ТВОЙ_STORAGE_BUCKET",
-    messagingSenderId: "ТВОЙ_SENDER_ID",
-    appId: "ТВОЙ_APP_ID"
-  };
+    const firebaseConfig = {
+      apiKey: "ВАШ_API_KEY",
+      authDomain: "ВАШ_AUTH_DOMAIN",
+      projectId: "ВАШ_PROJECT_ID",
+      storageBucket: "ВАШ_STORAGE_BUCKET",
+      messagingSenderId: "ВАШ_SENDER_ID",
+      appId: "ВАШ_APP_ID"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-  window.db = db;
-  window.storage = storage;
-</script>
+    async function addCard(name, description, userName, price, file) {
+      if (!file) {
+        alert("Виберіть фото картки");
+        return;
+      }
+
+      const storageRef = ref(storage, 'cards/' + Date.now() + '_' + file.name);
+      await uploadBytes(storageRef, file);
+      const photoURL = await getDownloadURL(storageRef);
+
+      await addDoc(collection(db, 'cards'), {
+        name,
+        description,
+        userName,
+        price,
+        photoURL,
+        createdAt: new Date()
+      });
+
+      alert("Картка додана!");
+    }
+
+    async function showCards() {
+      const container = document.getElementById('cardsContainer');
+      container.innerHTML = "Завантаження карточок...";
+
+      const cardsCol = collection(db, 'cards');
+      const q = query(cardsCol, orderBy('createdAt', 'desc'));
+      const querySnapshot = await getDocs(q);
+
+      container.innerHTML = "";
+
+      querySnapshot.forEach(doc => {
+        const card = doc.data();
+        const cardEl = document.createElement('div');
+        cardEl.innerHTML = `
+          <img src="${card.photoURL}" alt="Фото картки" />
+          <h3>${card.name}</h3>
+          <p><b>Опис:</b> ${card.description}</p>
+          <p><b>Продавець:</b> ${card.userName}</p>
+          <p><b>Ціна:</b> ${card.price}</p>
+        `;
+        container.appendChild(cardEl);
+      });
+
+      if (container.innerHTML === "") {
+        container.innerHTML = "<p>Карток поки немає.</p>";
+      }
+    }
+
+    document.getElementById('addCardForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      const form = e.target;
+      const name = form.name.value.trim();
+      const description = form.description.value.trim();
+      const userName = form.userName.value.trim();
+      const price = form.price.value.trim();
+      const photoFile = form.photo.files[0];
+
+      try {
+        await addCard(name, description, userName, price, photoFile);
+        form.reset();
+        showCards();
+      } catch (error) {
+        alert("Помилка при додаванні картки: " + error.message);
+      }
+    });
+
+    showCards();
+  </script>
+
 </body>
 </html>
+

@@ -1,71 +1,91 @@
+
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="uk">
 <head>
   <meta charset="UTF-8" />
-  <title>Мой Mini App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CR Cards — Обміни</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      padding: 20px;
-      background-color: #fff0f6;
-      color: #333;
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #1e102f;
+      color: #fff;
     }
-    h1 {
-      color: #d6336c;
+    header {
+      background-color: #2a1553;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+      font-weight: bold;
     }
-    button {
-      background-color: #d6336c;
-      color: white;
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      background-color: #3c1f66;
+      padding: 0.5rem;
+    }
+    nav button {
+      background-color: #6a3ea1;
       border: none;
+      color: white;
       padding: 10px 20px;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      font-size: 16px;
-      margin: 10px 5px 0 0;
     }
-    button:hover {
-      background-color: #b52b58;
+    nav button:hover {
+      background-color: #8255c4;
+    }
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+    .card {
+      background-color: #2f1b4d;
+      border-radius: 12px;
+      padding: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .card img {
+      width: 100%;
+      border-radius: 8px;
+    }
+    .card-info {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .card-info b {
+      color: #ffd700;
     }
   </style>
 </head>
 <body>
-  <div>
-    <button onclick="setLang('ru')">Русский</button>
-    <button onclick="setLang('uk')">Українська</button>
-  </div>
-  <h1 id="title">Привет! Это мой Mini App в Telegram</h1>
-  <p id="description">Здесь будет твоя коллекция карточек из Клуба Романтики.</p>
-  <button id="viewCardsBtn" onclick="alert(alertText)">Просмотреть карточки</button>
-
-  <script>
-    const texts = {
-      ru: {
-        title: 'Привет! Это мой Mini App в Telegram',
-        description: 'Здесь будет твоя коллекция карточек из Клуба Романтики.',
-        button: 'Просмотреть карточки',
-        alert: 'Показать список карточек пока что здесь :)'
-      },
-      uk: {
-        title: 'Привіт! Це мій Mini App у Telegram',
-        description: 'Тут буде твоя колекція карток з Клубу Романтики.',
-        button: 'Переглянути картки',
-        alert: 'Показати список карток поки що тут :)'
-      }
-    };
-
-    let currentLang = 'ru';
-    let alertText = texts[currentLang].alert;
-
-    function setLang(lang) {
-      currentLang = lang;
-      document.getElementById('title').textContent = texts[lang].title;
-      document.getElementById('description').textContent = texts[lang].description;
-      document.getElementById('viewCardsBtn').textContent = texts[lang].button;
-      alertText = texts[lang].alert;
-    }
-
-    // Инициализация
-    setLang(currentLang);
-  </script>
+  <header>Обмін картками | Club Romance</header>
+  <nav>
+    <button>Головна</button>
+    <button>Додати картку</button>
+    <button>Обмінятися</button>
+    <button>Профіль</button>
+  </nav>
+  <section class="cards-container">
+    <div class="card">
+      <img src="https://via.placeholder.com/200x250.png?text=Картка+1" alt="Картка 1">
+      <div class="card-info">
+        💎 <b>Ціна:</b> 1 алмаз<br>
+        👤 <b>Користувач:</b> @user123
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/200x250.png?text=Картка+2" alt="Картка 2">
+      <div class="card-info">
+        ☕ <b>Ціна:</b> 2 чашки<br>
+        👤 <b>Користувач:</b> @romanceFan
+      </div>
+    </div>
+  </section>
 </body>
 </html>

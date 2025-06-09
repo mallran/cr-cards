@@ -18,11 +18,11 @@
   <section id="formSection">
     <h1>Додати картку</h1>
     <form id="addCardForm">
-      <input type="text" name="name" placeholder="Назва картки" required />
-      <input type="text" name="description" placeholder="Опис" required />
-      <input type="text" name="userName" placeholder="Ваш Telegram @username" required />
-      <input type="text" name="price" placeholder="Ціна (чашки, алмази)" required />
-      <input type="file" name="photo" accept="image/*" required />
+      <input type="text" id="name" placeholder="Назва картки" required />
+      <input type="text" id="description" placeholder="Опис" required />
+      <input type="text" id="author" placeholder="Ваш Telegram @username" required />
+      <input type="text" id="price" placeholder="Ціна (чашки, алмази)" required />
+      <input type="file" id="image" accept="image/*" required />
       <button type="submit">Додати картку</button>
     </form>
   </section>
@@ -68,6 +68,11 @@
     </a>
   </footer>
 
-  <script type="module" src="script.js"></script>
+  <script>
+    function scrollToSection(id) {
+      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
+    }
+  </script>
+  <script src="script.js"></script>
 </body>
 </html>

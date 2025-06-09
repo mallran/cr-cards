@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
+import { getFirestore, collection, addDoc, getDocs, query, orderBy, where } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js"; // Добавил 'where' для будущих фильтров
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
 // 🔥 ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА СВОИ РЕАЛЬНЫЕ ДАННЫЕ ИЗ КОНСОЛИ FIREBASE!
@@ -44,13 +44,28 @@ async function addCard(name, description, userName, price, file) {
 }
 
 // Функция для отображения всех карточек из базы данных
-async function showCards() {
+// Теперь она может принимать параметры для сортировки/фильтрации
+async function showCards(sortBy = 'createdAt_desc', cardType = 'all') { // Добавил параметры
   const container = document.getElementById('cardsContainer');
   container.innerHTML = "Завантаження карток..."; // Показываем индикатор загрузки
 
   const cardsCol = collection(db, 'cards');
-  // Создаем запрос для получения карточек, сортируя их по дате создания в убывающем порядке
-  const q = query(cardsCol, orderBy('createdAt', 'desc'));
+  let q;
+
+  // Базовый запрос с сортировкой
+  if (sortBy === 'createdAt_asc') {
+      q = query(cardsCol, orderBy('createdAt', 'asc'));
+  } else { // createdAt_desc по умолчанию
+      q = query(cardsCol, orderBy('createdAt', 'desc'));
+  }
+
+  // Здесь можно добавить логику фильтрации по cardType, если вы добавите соответствующее поле в данные карточки
+  // Например:
+  // if (cardType !== 'all') {
+  //     q = query(q, where('type', '==', cardType));
+  // }
+
+
   const querySnapshot = await getDocs(q); // Выполняем запрос
 
   container.innerHTML = ""; // Очищаем контейнер перед добавлением новых карточек
@@ -101,10 +116,18 @@ document.getElementById('addCardForm').addEventListener('submit', async (e) => {
   }
 });
 
+// Обработчик для кнопки "Застосувати" фильтров
+document.getElementById('applyFilters').addEventListener('click', () => {
+    const sortBy = document.getElementById('sort-by').value;
+    const cardType = document.getElementById('card-type').value;
+    showCards(sortBy, cardType); // Вызываем showCards с выбранными параметрами
+});
+
+
 // Функция для плавной прокрутки к секциям
 function scrollToSection(id) {
   const section = document.getElementById(id);
-  if (section) section.scrollIntoView({ behavior: "smooth" });
+  if (section) section.scrollIntoView({ behavior: "smooth", block: "start" }); // block: "start" для лучшего позиционирования
 }
 
 // Запускаем отображение карточек при загрузке страницы

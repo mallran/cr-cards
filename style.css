@@ -1,94 +1,227 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background-color: #121212;
+  background-color: #1e102f;
   color: #fff;
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px;
+  padding-bottom: 70px; /* Высота вашего нижнего меню + небольшой отступ */
 }
 
-main {
-  flex: 1;
-  padding: 16px;
-  overflow-y: auto;
-}
-
-form {
-  display: none;
-  flex-direction: column;
-  gap: 10px;
+header {
+  background-color: #2a1553;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: bold;
+  border-radius: 8px;
   margin-bottom: 20px;
 }
 
-form.active {
+nav {
   display: flex;
+  justify-content: center;
+  gap: 10px;
+  background-color: #3c1f66;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-bottom: 20px;
 }
 
-input, button {
-  padding: 10px;
-  border-radius: 10px;
+nav button {
+  background-color: #6a3ea1;
   border: none;
-  font-size: 16px;
-}
-
-input {
-  background-color: #1e1e1e;
-  color: #fff;
-}
-
-button {
-  background-color: #ff3b6b;
-  color: #fff;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #ff5e85;
+nav button:hover {
+  background-color: #8255c4;
 }
 
-.card-list {
+section {
+    margin-bottom: 30px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #ffd700;
+}
+
+/* Стили для блока сортировки и фильтрации */
+.filter-sort-panel {
+    background-color: #2a1553; /* Темный фон */
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 20px;
+    display: flex;
+    flex-wrap: wrap; /* Разрешаем элементам переноситься на новую строку */
+    justify-content: space-around; /* Распределяем элементы */
+    align-items: center;
+    gap: 10px; /* Отступ между элементами */
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column; /* Элементы группы в колонку */
+    align-items: flex-start; /* Выравниваем по левому краю */
+}
+
+.filter-sort-panel label {
+    font-size: 0.9em;
+    color: #ccc;
+    margin-bottom: 5px;
+}
+
+.filter-sort-panel select,
+.filter-sort-panel button {
+    background-color: #3c1f66;
+    color: white;
+    border: 1px solid #4a2d7a;
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filter-sort-panel select:hover,
+.filter-sort-panel button:hover {
+    background-color: #6a3ea1;
+}
+
+.filter-sort-panel button {
+    margin-top: 15px; /* Отступ для кнопки */
+    align-self: center; /* Центрируем кнопку, если она одна в строке */
+}
+
+
+/* Стили для контейнера карточек (сетка) */
+.cards-container {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
-  gap: 12px;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
 }
 
+/* Стили для каждой отдельной карточки */
 .card {
-  background-color: #1e1e1e;
-  padding: 10px;
+  background-color: #2f1b4d;
   border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.4);
+  padding: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  text-align: center;
 }
 
 .card img {
   width: 100%;
+  max-width: 150px;
+  height: auto;
   border-radius: 8px;
-  object-fit: cover;
+  margin-bottom: 10px;
 }
 
-.card .info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-  font-size: 14px;
+.card-info {
+  margin-top: 10px;
+  font-size: 0.9rem;
+  width: 100%;
 }
 
-.bottom-menu {
+.card-info h3 {
+    margin-top: 0;
+    margin-bottom: 5px;
+    color: #a0f0ed;
+}
+
+.card-info p {
+    margin: 3px 0;
+}
+
+.card-info b {
+  color: #ffd700;
+}
+
+/* Стили для формы добавления карточки */
+form {
+  background-color: #2a1553;
+  padding: 15px;
+  border-radius: 12px;
+  margin-bottom: 30px;
+}
+
+input, button[type="submit"] {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: calc(100% - 20px);
+  max-width: 300px;
+  border-radius: 6px;
+  border: 1px solid #4a2d7a;
+  background-color: #3c1f66;
+  color: white;
+  font-size: 1rem;
+}
+
+input::placeholder {
+    color: #ccc;
+}
+
+button[type="submit"] {
+  background-color: #6a3ea1;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+  background-color: #8255c4;
+}
+
+/* Стили для нижнего фиксированного меню */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background-color: #2a1553; /* Фон, как на 2-м скриншоте (темный прямоугольник) */
   display: flex;
   justify-content: space-around;
-  padding: 12px 0;
-  background-color: #1e1e1e;
-  border-top: 1px solid #333;
+  align-items: center;
+  padding: 10px 0;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.3);
+  z-index: 1000;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  border-top-left-radius: 12px;
+  border-top-right-radius: 12px;
 }
 
-.bottom-menu button {
-  background: none;
-  border: none;
-  color: #fff;
-  font-size: 22px;
-  cursor: pointer;
+.nav-item {
+  color: white;
+  text-decoration: none;
+  text-align: center;
+  font-size: 0.8em;
+  padding: 5px;
+  flex: 1;
+  transition: background-color 0.3s ease;
+}
+
+.nav-item:hover {
+  background-color: #3c1f66;
+  border-radius: 5px;
+}
+
+/* Стили для иконок Font Awesome */
+.nav-item .fas {
+    font-size: 1.5em;
+    margin-bottom: 3px;
+    display: block;
 }

@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>CR Cards — Обміни</title>
   <link rel="stylesheet" href="style.css" />
-</head>
+  </head>
 <body>
   <header>Обмін картками | Club Romance</header>
 
   <nav>
     <button onclick="scrollToSection('formSection')">Додати картку</button>
-    <button onclick="scrollToSection('cardsContainer')">Обмінятися</button>
+    <button onclick="scrollToSection('cardsSection')">Обмінятися</button>
   </nav>
 
   <section id="formSection">
@@ -26,10 +26,25 @@
     </form>
   </section>
 
-  <section>
+  <section id="cardsSection">
     <h2>Картки</h2>
-    <div id="cardsContainer">Завантаження карток...</div>
+    <div class="cards-container" id="cardsContainer">Завантаження карток...</div>
   </section>
+
+  <footer class="bottom-nav">
+    <a href="#" class="nav-item">
+        🏠<br>Главная
+    </a>
+    <a href="#" class="nav-item">
+        📚<br>Мои карты
+    </a>
+    <a href="#" class="nav-item">
+        ✨<br>Обмен
+    </a>
+    <a href="#" class="nav-item">
+        ⚙️<br>Настройки
+    </a>
+  </footer>
 
   <script type="module" src="script.js"></script>
 </body>

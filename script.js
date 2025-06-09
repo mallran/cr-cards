@@ -2,91 +2,110 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.2/firebas
 import { getFirestore, collection, addDoc, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore.js";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.22.2/firebase-storage.js";
 
-// 🔥 Замінити на свої реальні дані з Firebase
+// 🔥 ЗАМЕНИТЕ ЭТИ ДАННЫЕ НА СВОИ РЕАЛЬНЫЕ ДАННЫЕ ИЗ КОНСОЛИ FIREBASE!
+// Эти данные являются ПРИМЕРОМ и не будут работать с вашей базой данных без замены.
 const firebaseConfig = {
-  apiKey: "AIzaSyA2Jh3C0x1YktEndvk3OJ6nh3DAR6fRpIo",
-  authDomain: "cr-cards-2e11c.firebaseapp.com",
-  projectId: "cr-cards-2e11c",
-  storageBucket: "cr-cards-2e11c.firebasestorage.app",
-  messagingSenderId: "1065257153470",
-  appId: "1:1065257153470:web:def77894e2e1f7b613bfef"
+  apiKey: "AIzaSyA2Jh3C0x1YktEndvk3OJ6nh3DAR6fRpIo", // <-- Замените на ваш apiKey
+  authDomain: "cr-cards-2e11c.firebaseapp.com", // <-- Замените на ваш authDomain
+  projectId: "cr-cards-2e11c", // <-- Замените на ваш projectId
+  storageBucket: "cr-cards-2e11c.firebasestorage.app", // <-- Замените на ваш storageBucket
+  messagingSenderId: "1065257153470", // <-- Замените на ваш messagingSenderId
+  appId: "1:1065257153470:web:def77894e2e1f7b613bfef" // <-- Замените на ваш appId
 };
 
+// Инициализация Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// Функция для добавления новой карточки в базу данных
 async function addCard(name, description, userName, price, file) {
   if (!file) {
-    alert("Виберіть фото картки");
+    alert("Будь ласка, оберіть фото картки.");
     return;
   }
 
+  // Загрузка фото в Firebase Storage
   const storageRef = ref(storage, 'cards/' + Date.now() + '_' + file.name);
   await uploadBytes(storageRef, file);
-  const photoURL = await getDownloadURL(storageRef);
+  const photoURL = await getDownloadURL(storageRef); // Получаем URL загруженного фото
 
+  // Добавление данных карточки в Firestore
   await addDoc(collection(db, 'cards'), {
     name,
     description,
     userName,
     price,
     photoURL,
-    createdAt: new Date()
+    createdAt: new Date() // Добавляем метку времени для сортировки
   });
 
-  alert("Картка додана!");
+  alert("Картка успішно додана!");
 }
 
+// Функция для отображения всех карточек из базы данных
 async function showCards() {
   const container = document.getElementById('cardsContainer');
-  container.innerHTML = "Завантаження карток...";
+  container.innerHTML = "Завантаження карток..."; // Показываем индикатор загрузки
 
   const cardsCol = collection(db, 'cards');
+  // Создаем запрос для получения карточек, сортируя их по дате создания в убывающем порядке
   const q = query(cardsCol, orderBy('createdAt', 'desc'));
-  const querySnapshot = await getDocs(q);
+  const querySnapshot = await getDocs(q); // Выполняем запрос
 
-  container.innerHTML = "";
+  container.innerHTML = ""; // Очищаем контейнер перед добавлением новых карточек
 
+  // Если карточек нет, показываем соответствующее сообщение
+  if (querySnapshot.empty) {
+    container.innerHTML = "<p style='text-align: center; color: #ccc;'>Карток поки немає. Будьте першими!</p>";
+    return;
+  }
+
+  // Проходим по каждой карточке и создаем HTML-элемент
   querySnapshot.forEach(doc => {
-    const card = doc.data();
+    const card = doc.data(); // Получаем данные карточки
     const cardEl = document.createElement('div');
+    cardEl.classList.add('card'); // Добавляем класс 'card' для применения стилей
+
     cardEl.innerHTML = `
       <img src="${card.photoURL}" alt="Фото картки" />
-      <h3>${card.name}</h3>
-      <p><b>Опис:</b> ${card.description}</p>
-      <p><b>Продавець:</b> ${card.userName}</p>
-      <p><b>Ціна:</b> ${card.price}</p>
+      <div class="card-info">
+        <h3>${card.name}</h3>
+        <p><b>Опис:</b> ${card.description}</p>
+        <p><b>Продавець:</b> <a href="https://t.me/${card.userName.replace('@', '')}" target="_blank" style="color: #a0f0ed; text-decoration: none;">${card.userName}</a></p>
+        <p><b>Ціна:</b> ${card.price}</p>
+      </div>
     `;
-    container.appendChild(cardEl);
+    container.appendChild(cardEl); // Добавляем карточку в контейнер
   });
-
-  if (container.innerHTML === "") {
-    container.innerHTML = "<p>Карток поки немає.</p>";
-  }
 }
 
+// Обработчик события отправки формы
 document.getElementById('addCardForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
+  e.preventDefault(); // Предотвращаем стандартную отправку формы
   const form = e.target;
+  // Получаем значения полей формы
   const name = form.name.value.trim();
   const description = form.description.value.trim();
   const userName = form.userName.value.trim();
   const price = form.price.value.trim();
-  const photoFile = form.photo.files[0];
+  const photoFile = form.photo.files[0]; // Получаем выбранный файл
 
   try {
-    await addCard(name, description, userName, price, photoFile);
-    form.reset();
-    showCards();
+    await addCard(name, description, userName, price, photoFile); // Вызываем функцию добавления карточки
+    form.reset(); // Очищаем форму после успешного добавления
+    showCards(); // Обновляем список карточек на странице
   } catch (error) {
     alert("Помилка при додаванні картки: " + error.message);
+    console.error("Error adding card: ", error); // Выводим ошибку в консоль для отладки
   }
 });
 
+// Функция для плавной прокрутки к секциям
 function scrollToSection(id) {
   const section = document.getElementById(id);
   if (section) section.scrollIntoView({ behavior: "smooth" });
 }
 
+// Запускаем отображение карточек при загрузке страницы
 showCards();

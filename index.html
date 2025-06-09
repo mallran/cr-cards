@@ -3,70 +3,30 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CR Cards — Обміни</title>
+  <title>Romance Club Cards</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>Обмін картками | Club Romance</header>
-
-  <nav>
-    <button onclick="scrollToSection('formSection')">Додати картку</button>
-    <button onclick="scrollToSection('cardsSection')">Обмінятися</button>
-  </nav>
-
-  <section id="formSection">
-    <h1>Додати картку</h1>
-    <form id="addCardForm">
-      <input type="text" name="name" placeholder="Назва картки" required />
-      <input type="text" name="description" placeholder="Опис" required />
-      <input type="text" name="userName" placeholder="Ваш Telegram @username" required />
-      <input type="text" name="price" placeholder="Ціна (чашки, алмази)" required />
-      <input type="file" name="photo" accept="image/*" required />
-      <button type="submit">Додати картку</button>
+  <main>
+    <form id="cardForm">
+      <input type="text" id="name" placeholder="Назва картки" required />
+      <input type="text" id="rarity" placeholder="Рідкість (наприклад, ⭐️⭐️⭐️)" required />
+      <input type="text" id="price" placeholder="Ціна" required />
+      <input type="url" id="image" placeholder="Посилання на зображення" required />
+      <input type="text" id="author" placeholder="Ім’я користувача" required />
+      <button type="submit">Додати</button>
     </form>
-  </section>
 
-  <section id="cardsSection">
-    <h2>Картки</h2>
+    <div class="card-list" id="cards"></div>
+  </main>
 
-    <div class="filter-sort-panel">
-        <div class="filter-group">
-            <label for="sort-by">Сортувати за:</label>
-            <select id="sort-by">
-                <option value="createdAt_desc">Новіші</option>
-                <option value="createdAt_asc">Старіші</option>
-                </select>
-        </div>
-        <div class="filter-group">
-            <label for="card-type">Тип картки:</label>
-            <select id="card-type">
-                <option value="all">Всі</option>
-                <option value="cups">Чашки</option>
-                <option value="diamonds">Алмази</option>
-            </select>
-        </div>
-        <button id="applyFilters">Застосувати</button>
-    </div>
+  <div class="bottom-menu">
+    <button id="homeBtn">🏠</button>
+    <button id="addCardBtn">➕</button>
+    <button id="profileBtn">👤</button>
+  </div>
 
-    <div class="cards-container" id="cardsContainer">Завантаження карток...</div>
-  </section>
-
-  <footer class="bottom-nav">
-    <a href="#" class="nav-item">
-        <i class="fas fa-home"></i><br>Головна
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-id-card"></i><br>Мої карти
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-handshake"></i><br>Обмін
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-cog"></i><br>Налаштування
-    </a>
-  </footer>
-
-  <script type="module" src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
+

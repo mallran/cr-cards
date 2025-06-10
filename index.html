@@ -3,76 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>CR Cards — Обміни</title>
+  <title>Обмін картками|CR </title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-  <header>Обмін картками | Club Romance</header>
-
-  <nav>
-    <button onclick="scrollToSection('formSection')">Додати картку</button>
-    <button onclick="scrollToSection('cardsSection')">Обмінятися</button>
-  </nav>
-
-  <section id="formSection">
+  <div class="container">
     <h1>Додати картку</h1>
-    <form id="addCardForm">
-      <input type="text" id="name" placeholder="Назва картки" required />
-      <input type="text" id="description" placeholder="Опис" required />
-      <input type="text" id="author" placeholder="Ваш Telegram @username" required />
-      <input type="text" id="price" placeholder="Ціна (чашки, алмази)" required />
-      <input type="file" id="image" accept="image/*" required />
-      <button type="submit">Додати картку</button>
+    <form id="cardForm">
+      <input type="text" id="title" placeholder="Назва картки" required />
+      <input type="text" id="price" placeholder="Ціна (наприклад, 30 чашек)" required />
+      <button type="submit">Додати</button>
     </form>
-  </section>
 
-  <section id="cardsSection">
-    <h2>Картки</h2>
-
-    <div class="filter-sort-panel">
-        <div class="filter-group">
-            <label for="sort-by">Сортувати за:</label>
-            <select id="sort-by">
-                <option value="createdAt_desc">Новіші</option>
-                <option value="createdAt_asc">Старіші</option>
-                </select>
-        </div>
-        <div class="filter-group">
-            <label for="card-type">Тип картки:</label>
-            <select id="card-type">
-                <option value="all">Всі</option>
-                <option value="cups">Чашки</option>
-                <option value="diamonds">Алмази</option>
-                <option value="exchange">Обмін</option>
-            </select>
-        </div>
-        <button id="applyFilters">Застосувати</button>
-    </div>
-
-    <div class="cards-container" id="cardsContainer">Карток поки немає.Будьте першими!</div>
-  </section>
-
-  <footer class="bottom-nav">
-    <a href="#" class="nav-item">
-        <i class="fas fa-home"></i><br>Головна
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-id-card"></i><br>Мої карти
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-handshake"></i><br>Обмін
-    </a>
-    <a href="#" class="nav-item">
-        <i class="fas fa-cog"></i><br>Налаштування
-    </a>
-  </footer>
-
-  <script>
-    function scrollToSection(id) {
-      document.getElementById(id).scrollIntoView({ behavior: "smooth" });
-    }
-  </script>
+    <h2>Мої картки</h2>
+    <div id="cardList"></div>
+  </div>
+<div class="bottom-nav">
+  <button>Головна</button>
+  <button>Мій профіль</button>
+  <button>Налаштування</button>
+</div>
   <script src="script.js"></script>
 </body>
 </html>

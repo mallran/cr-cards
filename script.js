@@ -1,46 +1,19 @@
-// Прокрутка до секцій
-function scrollToSection(sectionId) {
-  const section = document.getElementById(sectionId);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-}
-
-// Вибираємо форму та контейнер для карток
-const form = document.getElementById("addCardForm");
-const cardsContainer = document.getElementById("cardsContainer");
-
-form.addEventListener("submit", (e) => {
+document.getElementById('cardForm').addEventListener('submit', function (e) {
   e.preventDefault();
 
-  const formData = new FormData(form);
-  const name = formData.get("name");
-  const description = formData.get("description");
-  const price = formData.get("price");
-  const author = formData.get("userName");
-  const imageFile = formData.get("photo");
+  const title = document.getElementById('title').value;
+  const price = document.getElementById('price').value;
+  const date = new Date().toLocaleDateString();
 
-  const reader = new FileReader();
-  reader.onload = function () {
-    const imageSrc = reader.result;
+  const cardEl = document.createElement('div');
+  cardEl.className = 'card';
+  cardEl.innerHTML = `
+    <div class="card-title">${title}</div>
+    <div class="card-date">Дата: ${date}</div>
+    <div class="card-price">Ціна: ${price}</div>
+  `;
 
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${imageSrc}" alt="${name}" />
-      <div class="card-info">
-        <h3>${name}</h3>
-        <p>${description}</p>
-        <p><b>Ціна:</b> ${price}</p>
-        <p><b>👤 ${author}</b></p>
-      </div>
-    `;
+  document.getElementById('cardList').prepend(cardEl);
 
-    cardsContainer.prepend(card);
-    form.reset();
-  };
-
-  if (imageFile) {
-    reader.readAsDataURL(imageFile);
-  }
+  this.reset();
 });
